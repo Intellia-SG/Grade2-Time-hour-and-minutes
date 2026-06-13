@@ -1,0 +1,700 @@
+⚙️
+TIME: HOURS & MINUTES
+Gamified Mathematics Learning Platform
+GRADE 2 MATHEMATICS
+TECHNICAL REQUIREMENTS DOCUMENT (TRD)
+Version 1.0  |  June 2026
+
+
+Document Information
+Document Type
+Technical Requirements Document (TRD)
+Platform Name
+Time: Hours & Minutes
+Companion Document
+Product Requirements Document (PRD) v1.0
+Version
+1.0
+Date
+June 2026
+Status
+Draft — Ready for Engineering Review
+Architecture Style
+Modular monolith with micro-frontend module loading
+Primary Stack
+React + TypeScript, Node.js, PostgreSQL, AWS
+Audience
+Engineers, Architects, DevOps, QA, Animators, Audio Engineers
+
+
+Table of Contents
+
+
+
+1. System Architecture Overview
+1.1 Architectural Goals
+The Time: Hours & Minutes platform must support a media-heavy, animation-rich, audio-synchronized single-concept learning experience for young children, while remaining performant on low-to-mid-range tablets globally. The architecture is designed around the following goals:
+Fast initial load (<3s on 4G) with progressive asset streaming
+Modular content architecture allowing independent module deployment
+Offline-first capability for classroom use with unreliable internet
+Strict COPPA/GDPR-K compliance for child data privacy
+Scalable to millions of concurrent sessions across global regions
+Decoupled content authoring pipeline so curriculum team can update without engineering deploys
+
+1.2 High-Level Architecture Diagram (Textual)
+🏗️ ARCHITECTURE FLOW
+CLIENT (React + TypeScript SPA / PWA) → CDN (Static Assets: animations, audio, sprites) → API GATEWAY (REST + WebSocket) → MICROSERVICES (Auth, Progress, Content, Adaptive Engine, Analytics) → DATA LAYER (PostgreSQL, Redis, S3, TimescaleDB for analytics)
+
+1.3 Core System Components
+Component
+Responsibility
+Technology
+Web Client (SPA/PWA)
+Renders all learning screens, clock simulations, audio playback, offline cache
+React 18 + TypeScript, Vite, Service Workers
+Content Delivery Network
+Serves animations (Lottie/SVG), audio (compressed), sprites, fonts
+CloudFront / Fastly
+API Gateway
+Routes requests, handles auth tokens, rate limiting
+AWS API Gateway / Kong
+Auth Service
+User/account management, guardian consent flows, JWT issuance
+Node.js + Auth0 (or custom) 
+Progress Service
+Tracks LO mastery, XP, badges, module state per student
+Node.js + PostgreSQL
+Content Service
+Serves module/screen JSON definitions, versioned content
+Node.js + PostgreSQL + S3
+Adaptive Engine
+Computes difficulty tier, hint triggers, question selection
+Node.js microservice + Redis
+Analytics Pipeline
+Ingests interaction events for learning analytics
+Kinesis/Kafka + TimescaleDB
+Admin/CMS
+Curriculum team authors and previews content modules
+Next.js internal tool
+Parent/Teacher Portal
+Dashboards for progress monitoring
+React + TypeScript (shared component library)
+
+
+2. Frontend Architecture
+2.1 Technology Stack
+Layer
+Technology
+Rationale
+Framework
+React 18 (with Concurrent Features)
+Mature ecosystem; strong animation library support; team familiarity
+Language
+TypeScript 5.x
+Type safety for complex screen/state models
+Build Tool
+Vite
+Fast HMR for animation-heavy iteration; efficient code-splitting
+State Management
+Zustand (local) + React Query (server state)
+Lightweight; avoids boilerplate of Redux for this scope
+Animation
+Lottie (Bodymovin), Framer Motion, GSAP for clock hand physics
+Lottie for character animation; GSAP for precise clock-hand rotation control
+Audio
+Howler.js
+Cross-browser audio sprite support, mobile-safe playback
+Styling
+Tailwind CSS + CSS Modules for component-specific theming
+Rapid prototyping with design tokens
+PWA / Offline
+Workbox (Service Worker)
+Caching strategies for offline play
+Testing
+Vitest + React Testing Library + Playwright (E2E)
+Unit, integration, and end-to-end coverage
+Accessibility
+axe-core in CI, react-aria primitives
+Automated a11y regression checks
+
+2.2 Application Structure
+The frontend follows a feature-based modular architecture. Each learning module (e.g., 'Half-Past Journey') is a self-contained package that can be lazy-loaded.
+/src
+  /app                  → App shell, routing, providers
+  /core
+    /clock-engine       → Reusable analog/digital clock components
+    /audio-engine       → Howler wrapper, narration sync controller
+    /animation-engine   → Lottie wrapper, transition orchestrator
+    /adaptive-client    → Talks to Adaptive Engine API
+    /design-system      → Tokens, primitives, shared UI components
+  /modules
+    /module-01-clock-kingdom
+    /module-02-hour-adventure
+    /module-03-half-past-journey
+    /module-04-quarter-time
+    /module-05-minute-world
+    /module-06-digital-bridge
+    /module-07-ampm-explorer
+    /module-08-time-in-my-day
+    /module-09-time-challenge
+    /module-10-grand-finale
+  /state                → Zustand stores (progress, settings, session)
+  /services             → API clients (REST, WebSocket)
+  /assets               → Local fallback assets (CDN-first otherwise)
+
+2.3 Screen Rendering Model
+Each module is defined as a JSON 'screen graph' fetched from the Content Service. The Screen Renderer interprets this graph and instantiates the corresponding React component for each screen type, enabling curriculum updates without redeploying frontend code for content-only changes.
+// Example screen graph node (simplified)
+{
+  "screenId": "1.3",
+  "type": "GuidedExplanation",
+  "loRefs": ["LO-02"],
+  "layout": "clock-center-character-left",
+  "narrationAudio": "cdn://audio/m1/s3_hour_hand.mp3",
+  "subtitleText": "See the short, chubby hand? That's the hour hand!",
+  "clockConfig": { "mode": "animated", "highlightHand": "hour", "startTime": "03:00" },
+  "transitions": { "next": "1.4", "skipAllowed": false }
+}
+
+2.4 Clock Engine Component Specification
+The Clock Engine is the most critical reusable component. It must support both controlled (animated/scripted) and interactive (drag/tap) modes.
+Prop
+Type
+Description
+mode
+'display' | 'animated' | 'interactive'
+Determines whether hands are static, scripted, or user-controlled
+time
+{ hours: number, minutes: number }
+Current time represented
+onChange
+(time) => void
+Fired when user drags a hand (interactive mode)
+snapToMinutes
+5 | 1
+Snapping granularity for drag interactions
+highlightHand
+'hour' | 'minute' | 'both' | 'none'
+Visual emphasis for guided screens
+showDigital
+boolean
+Whether to render synced digital readout
+animationSpeed
+number (0.5–2.0)
+Multiplier for accessibility 'slow mode'
+theme
+'day' | 'night'
+Visual theme matching a.m./p.m. context
+
+2.5 Audio-Sync Narration Controller
+Narration audio must remain synchronized with on-screen highlights (e.g., highlighting the minute hand exactly when the narrator says 'minute hand'). This is achieved via a timestamped cue-track approach:
+// Cue track format (JSON, stored alongside audio file)
+{
+  "audioFile": "s3_hour_hand.mp3",
+  "durationMs": 4200,
+  "cues": [
+    { "atMs": 0,    "action": "highlight", "target": "hourHand" },
+    { "atMs": 1800, "action": "pulse",     "target": "hourHand" },
+    { "atMs": 3000, "action": "subtitle",  "text": "That's the hour hand!" }
+  ]
+}
+The AudioSyncController listens to Howler's playback position (polled at 60fps via requestAnimationFrame) and dispatches cue actions to the Clock Engine and Subtitle component.
+If audio fails to load (offline/error), cues fire on a timer fallback using durationMs to preserve pacing.
+
+
+3. Backend Architecture
+3.1 Technology Stack
+Layer
+Technology
+Rationale
+Runtime
+Node.js 20 LTS (TypeScript)
+Shared language with frontend; strong async I/O for API workloads
+API Framework
+Fastify
+High performance, schema validation built-in
+Primary Database
+PostgreSQL 16
+Relational integrity for users, progress, content versioning
+Cache / Session Store
+Redis 7
+Adaptive engine state, session tokens, rate limiting
+Object Storage
+AWS S3
+Audio, animation (Lottie JSON), image assets
+CDN
+AWS CloudFront
+Global low-latency asset delivery
+Analytics Store
+TimescaleDB (Postgres extension)
+Time-series interaction event storage for learning analytics
+Message Queue
+AWS SQS / Kafka (for scale)
+Decouples analytics ingestion from request path
+Container Orchestration
+AWS ECS Fargate (initial), EKS (scale)
+Managed container runtime, autoscaling
+IaC
+Terraform
+Reproducible infrastructure across environments
+
+3.2 Microservice Breakdown
+3.2.1 Auth Service
+Handles account creation for parents/teachers; child profiles linked to guardian accounts (no direct child PII collection beyond first name/avatar)
+Implements COPPA-compliant verifiable parental consent (VPC) flow
+Issues short-lived JWT access tokens (15 min) + refresh tokens (30 days, rotated)
+Supports SSO for school districts via Google Classroom / Clever / ClassLink
+
+3.2.2 Progress Service
+Stores per-student state: module completion, LO mastery scores, XP, level, badges, stars
+Exposes endpoints: GET /progress/{studentId}, POST /progress/{studentId}/events
+Idempotent event ingestion (client may retry on flaky connections — events de-duplicated by clientEventId)
+Computes star ratings server-side to prevent client tampering
+
+3.2.3 Content Service
+Serves versioned 'screen graph' JSON for each module
+Supports content staging/preview for curriculum team via Admin CMS
+Implements content versioning so in-progress student sessions aren't disrupted mid-module by live edits
+Returns localized content bundles based on Accept-Language header (future i18n)
+
+3.2.4 Adaptive Engine
+Consumes real-time answer events; maintains rolling performance window (last 5 answers) per LO
+Outputs difficulty tier (Scaffolded / Standard / Extended) consumed by Content Service question selector
+Stateless compute with Redis-backed session state for low latency (<50ms decision time)
+
+3.2.5 Analytics Pipeline
+Ingests granular interaction events (screen views, answer attempts, hint usage, time-on-screen)
+Feeds learning efficacy dashboards (Section 9 of PRD) and curriculum iteration reports
+PII-scrubbed before long-term storage; aggregated reporting only
+
+
+4. Data Model & API Specifications
+4.1 Core Data Entities (ER Overview)
+Entity
+Key Attributes
+Relationships
+Guardian
+id, email, consentStatus, createdAt
+1 → Many Students
+Student
+id, guardianId, displayName, avatarId, locale, createdAt
+1 → Many ProgressRecords
+Module
+id, code, title, version, screenGraphRef, requiredLOs[]
+1 → Many Screens; 1 → Many LearningObjectives
+LearningObjective
+id, code (e.g., LO-09), description, moduleId, blooms_level
+Many → Many Screens
+Screen
+id, moduleId, type, screenOrder, contentRef, loRefs[]
+Belongs to Module
+ProgressRecord
+id, studentId, moduleId, status, starsEarned, masteryScores{}, lastAccessedAt
+Belongs to Student & Module
+InteractionEvent
+id, studentId, screenId, eventType, payload, clientEventId, timestamp
+Belongs to Student & Screen
+Badge
+id, code, title, iconRef, criteria
+Many → Many Students (via StudentBadge)
+XPLedger
+id, studentId, amount, source, timestamp
+Belongs to Student
+
+4.2 Key API Endpoints
+Method & Path
+Description
+Auth
+POST /api/v1/auth/guardian/signup
+Create guardian account + initiate consent flow
+Public
+POST /api/v1/auth/students
+Create child profile under guardian
+Guardian JWT
+GET /api/v1/content/modules
+List all modules with lock/unlock status for student
+Student JWT
+GET /api/v1/content/modules/{moduleId}/screens
+Fetch screen graph for a module
+Student JWT
+POST /api/v1/progress/{studentId}/events
+Submit interaction event (answer, hint usage, etc.)
+Student JWT
+GET /api/v1/progress/{studentId}/summary
+Get XP, level, badges, module completion overview
+Student/Guardian JWT
+GET /api/v1/adaptive/{studentId}/next-question
+Get next adaptive question for a given LO
+Student JWT
+GET /api/v1/dashboard/teacher/{classId}
+Class-level aggregated progress (no individual identifiers exposed by default)
+Teacher JWT
+POST /api/v1/certificates/{studentId}/generate
+Generate completion certificate (PDF)
+Student/Guardian JWT
+
+4.3 Sample API Payload — Submit Answer Event
+POST /api/v1/progress/{studentId}/events
+{
+  "clientEventId": "a1b2c3d4-uuid",
+  "screenId": "5.5",
+  "moduleId": "module-05-minute-world",
+  "loRefs": ["LO-10"],
+  "eventType": "ANSWER_SUBMITTED",
+  "payload": {
+    "questionId": "q5_5_03",
+    "selectedOption": "25 minutes",
+    "correctOption": "25 minutes",
+    "isCorrect": true,
+    "attemptNumber": 1,
+    "hintUsed": false,
+    "responseTimeMs": 4200
+  },
+  "timestamp": "2026-06-12T09:14:32Z"
+}
+
+
+5. Animation, Audio & Asset Pipeline
+5.1 Animation Production Pipeline
+Stage
+Tool
+Output Format
+Notes
+Character Design
+Adobe Illustrator / Figma
+SVG / AI source files
+Pip and all characters designed at 2x resolution
+Rigging & Animation
+Adobe After Effects + Bodymovin plugin
+Lottie JSON (.json)
+All character animations exported as Lottie for small file size
+Clock Hand Animation
+Custom GSAP timeline (code-driven)
+N/A (runtime computed)
+Not pre-rendered — calculated from time values for precision
+Background Scenes
+Figma / Illustrator
+Optimized SVG / WebP
+Layered for parallax effects
+QA Review
+Internal animation review board
+Approved asset manifest
+Checks for frame consistency, file size budget (<150KB per Lottie)
+Asset Optimization
+SVGO, Lottie minifier, Sharp (image)
+Compressed final assets
+Automated in CI pipeline before CDN upload
+
+5.2 Audio Production Pipeline
+Stage
+Specification
+Recording Format
+48kHz / 24-bit WAV (studio masters)
+Delivery Format
+MP3 (128kbps) + Ogg Vorbis fallback, normalized to -16 LUFS
+Voice Talent
+Child-friendly, neutral-accent voice actor for Pip; warm adult voices for Mayor Tick
+Narration Script Source
+Single source-of-truth script doc maintained by curriculum team; versioned alongside screen graphs
+Cue Track Generation
+Audio engineer manually annotates timestamps in companion JSON (see Section 2.5)
+Localization Readiness
+All narration scripts written with localization keys (i18n-ready) from Phase 1, even if only English ships at MVP
+Sound Effects Library
+Custom-recorded chimes, ticks, and cheers — original IP, royalty-free
+Background Music
+Original composition; looped seamlessly; separate stems for music/SFX volume control
+
+5.3 Asset Delivery & Performance Budgets
+Asset Type
+Budget per Screen
+Delivery Strategy
+Lottie Animations
+≤150 KB each
+Lazy-loaded per screen; preloaded for next 1 screen ahead
+Audio (Narration)
+≤300 KB per clip (~20–30 sec)
+Streamed; cached in Service Worker for offline replay
+Background Images
+≤200 KB (WebP)
+Preloaded at module entry
+Total Module Bundle
+≤8 MB per module
+Downloaded progressively; playable after first screen loads
+JS Bundle (per module chunk)
+≤250 KB gzipped
+Code-split via dynamic import()
+
+
+6. Performance, Scalability & Reliability
+6.1 Performance Targets
+Metric
+Target
+Measurement
+Time to Interactive (TTI)
+<3s on 4G, mid-tier Android tablet
+Lighthouse / WebPageTest
+Largest Contentful Paint
+<2.5s
+Real User Monitoring (RUM)
+Clock Drag Interaction Latency
+<16ms (60fps)
+Frame timing API
+Audio Playback Start Delay
+<200ms after screen transition
+Custom instrumentation
+API p95 Latency
+<300ms
+APM (Datadog/New Relic)
+Module Bundle Load (cached)
+<500ms
+Service Worker cache hit timing
+
+6.2 Scalability Plan
+Stateless services horizontally scaled via ECS Fargate auto-scaling groups (CPU/memory thresholds at 65%)
+Read replicas for PostgreSQL to separate analytics/reporting queries from transactional load
+Redis cluster mode for adaptive engine session state at scale
+CDN edge caching for all static assets with 1-year cache headers + content-hash filenames for cache busting
+Database partitioning of InteractionEvent table by month (TimescaleDB hypertables)
+
+6.3 Offline / PWA Strategy
+Asset Category
+Caching Strategy
+App Shell (JS/CSS)
+Cache-first with versioned cache names; updated on new deploy via Service Worker activate event
+Module Content (JSON)
+Network-first with cache fallback; re-validated on reconnect
+Audio/Animation Assets
+Cache-first once downloaded; pre-fetched for next module on completion
+Progress Events
+Queued in IndexedDB when offline; flushed to Progress Service on reconnect (idempotent via clientEventId)
+
+
+7. Security, Privacy & Compliance
+7.1 Child Data Privacy Compliance
+🔒 COMPLIANCE MANDATE
+The platform must comply with COPPA (USA), GDPR-K / UK GDPR Age Appropriate Design Code (UK), and equivalent child-data protection regulations in Australia (Privacy Act) and India (DPDP Act) for any user under 13. No directly identifying information is collected from children; all account management occurs at the guardian/teacher level.
+
+Requirement
+Implementation
+Verifiable Parental Consent
+Email + payment-method verification or signed consent form before child profile activation
+Data Minimization
+Child profiles store only: display name (or generated nickname), avatar selection, locale, progress data
+No Behavioral Advertising
+Zero third-party ad SDKs; no cross-app tracking identifiers
+Data Retention
+Inactive accounts (24 months) auto-purged with guardian notification
+Right to Deletion
+Guardian-initiated full account + data deletion via portal, fulfilled within 30 days
+Data Residency
+Regional data storage options (US, EU, APAC) for school district compliance
+Third-Party Processors
+All sub-processors (hosting, analytics) vetted and listed in privacy policy
+
+7.2 Application Security
+All traffic over TLS 1.3; HSTS enforced
+JWT signing via RS256; key rotation every 90 days
+Rate limiting on all public endpoints (100 req/min per IP for unauthenticated)
+Input validation via JSON Schema on all API requests (Fastify schema validation)
+Dependency scanning (Snyk/Dependabot) integrated into CI
+Regular penetration testing (annual, plus pre-launch)
+Content Security Policy (CSP) headers restricting script sources to self + approved CDN
+
+
+8. DevOps, CI/CD & Environments
+8.1 Environment Strategy
+Environment
+Purpose
+Data
+Local
+Developer workstations; Docker Compose for dependencies
+Synthetic/seed data
+Dev
+Continuous integration target; auto-deployed on merge to develop
+Synthetic data
+Staging
+Pre-production; mirrors prod config; used for curriculum content review
+Anonymized snapshot
+Production
+Live platform; multi-region (US-East, EU-West, AP-Southeast)
+Live data, encrypted at rest
+
+8.2 CI/CD Pipeline
+1. PR opened → Lint (ESLint/Prettier) + Type Check (tsc) + Unit Tests (Vitest)
+2. Build → Storybook visual regression (Chromatic) for design-system components
+3. E2E Tests → Playwright suite runs against ephemeral preview environment
+4. Accessibility Audit → axe-core automated scan; fails build on critical issues
+5. Asset Validation → Lottie/audio file size budgets enforced (Section 5.3)
+6. Merge to main → Auto-deploy to Staging
+7. Manual QA + Curriculum Sign-off → Promote to Production (blue/green deploy)
+
+8.3 Monitoring & Observability
+Tool
+Purpose
+Datadog / New Relic
+APM, infrastructure metrics, alerting
+Sentry
+Frontend & backend error tracking with source maps
+LogRocket (privacy-configured)
+Session replay for UX debugging — child PII masked
+AWS CloudWatch
+Infrastructure-level logs and alarms
+Custom Analytics Dashboard
+Learning efficacy KPIs (PRD Section 9) for product/curriculum teams
+
+
+9. Testing & QA Strategy
+9.1 Test Pyramid
+Level
+Scope
+Tooling
+Target Coverage
+Unit Tests
+Clock math utilities, adaptive engine logic, reducers
+Vitest
+85%+ for /core
+Component Tests
+Clock Engine interactions, screen renderers
+React Testing Library
+All interactive components
+Integration Tests
+API contracts between services
+Pact / Supertest
+All public endpoints
+E2E Tests
+Full module playthroughs (Modules 1, 5, 9 prioritized)
+Playwright (multi-device emulation)
+Critical learning paths
+Visual Regression
+Character animations, layout consistency
+Chromatic
+All design-system components
+Accessibility Tests
+WCAG 2.1 AA compliance
+axe-core, manual screen-reader pass
+All screens
+Performance Tests
+Load testing API; frame-rate profiling for clock drag
+k6, Chrome DevTools Performance
+Targets per Section 6.1
+Curriculum QA
+Pedagogical accuracy review of all content
+Manual review by certified educators
+100% of screens pre-launch
+
+9.2 Device & Browser Test Matrix
+Category
+Devices/Browsers
+Tablets (Primary)
+iPad (Safari, latest 2 versions), Samsung Galaxy Tab (Chrome), Amazon Fire tablets (Silk browser)
+Desktop
+Chrome, Edge, Safari, Firefox — latest 2 versions
+Mobile
+iPhone SE (small screen baseline), mid-range Android (Chrome)
+Low-end Hardware
+Test on devices with 2GB RAM to validate animation performance budgets
+Network Conditions
+Throttled 3G/4G profiles in CI to validate load-time targets
+
+
+10. Technical Risks & Mitigations
+Risk
+Impact
+Mitigation
+Animation jank on low-end tablets
+Poor UX, child frustration
+Strict asset budgets (Sec 5.3); GPU-accelerated CSS transforms; performance CI gate
+Audio autoplay restrictions on mobile browsers
+Narration fails to start
+Require single tap-to-start per session (one-time gesture unlocks Web Audio context)
+Content/code coupling causes slow curriculum iteration
+Slow content updates
+Screen-graph JSON architecture decouples content from frontend code (Sec 2.3)
+Offline sync conflicts (multiple devices)
+Progress data conflicts
+Last-write-wins with server-side timestamp reconciliation; idempotent event IDs
+Third-party SSO outages (school districts)
+Login failures during class time
+Guest mode fallback always available (per PRD F-10)
+Asset pipeline bottleneck (animation team)
+Delays module launches
+Lottie templates + reusable rigs for Pip across modules; parallel production tracks
+Adaptive engine miscalibration
+Frustration or boredom
+A/B test difficulty thresholds during beta; tunable via config without redeploy
+Regional data residency requirements
+Blocks school district adoption
+Multi-region infrastructure from Phase 2 (Sec 8.1)
+
+
+11. Team Roles & Responsibilities
+Role
+Key Responsibilities
+Frontend Engineers
+Clock Engine, screen renderers, animation/audio integration, PWA/offline
+Backend Engineers
+Microservices (Auth, Progress, Content, Adaptive, Analytics), API design
+DevOps/SRE
+CI/CD, infrastructure (Terraform), monitoring, scaling, security hardening
+Animators
+Character rigs, Lottie exports, background scenes, asset optimization
+Audio Engineers
+Recording, mixing, cue-track annotation, sound design
+Curriculum Designers
+Screen graph content authoring, LO mapping, assessment design, pedagogical QA
+UX/Product Designers
+Wireframes, design system, interaction specs, usability testing with children
+QA Engineers
+Test plan execution, device matrix testing, accessibility audits
+Data/Analytics
+Learning efficacy dashboards, A/B test analysis, adaptive engine tuning
+
+
+12. Appendix
+12.1 Technology Decision Log
+Decision
+Alternatives Considered
+Chosen
+Reason
+Animation format
+Sprite sheets, video, Lottie
+Lottie
+Smallest file size, scalable, code-controllable
+State management
+Redux, Zustand, Context API
+Zustand
+Minimal boilerplate, sufficient for app scope
+Backend framework
+Express, Fastify, NestJS
+Fastify
+Performance + built-in schema validation
+Database
+MongoDB, PostgreSQL
+PostgreSQL
+Relational integrity for progress/LO mapping; TimescaleDB extension for analytics
+Clock interaction library
+Pure CSS, Canvas, SVG+GSAP
+SVG + GSAP
+Precise control, accessibility (DOM-based), crisp at any resolution
+
+12.2 Glossary of Technical Terms
+Term
+Definition
+Screen Graph
+JSON definition describing the sequence and configuration of screens in a module
+Cue Track
+Timestamped JSON file synchronizing narration audio with on-screen animation events
+Adaptive Engine
+Service computing real-time difficulty adjustments based on student performance
+PWA
+Progressive Web App — installable, offline-capable web application
+LO
+Learning Objective — see PRD glossary
+TTI
+Time to Interactive — performance metric for when a page becomes usable
+
+12.3 Related Documents
+Product Requirements Document (PRD) v1.0 — Time: Hours & Minutes
+Equal Platform Reference — equal-tau.vercel.app
+Equal Repository — github.com/dsamyak/equal

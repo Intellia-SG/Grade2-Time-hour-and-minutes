@@ -1,0 +1,914 @@
+🕐
+TIME: HOURS & MINUTES
+Gamified Mathematics Learning Platform
+GRADE 2 MATHEMATICS
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+Version 1.0  |  June 2026
+
+
+Document Information
+Document Type
+Product Requirements Document (PRD)
+Platform Name
+Time: Hours & Minutes
+Topic
+Time: Hours & Minutes
+Target Audience
+Grade 2 Students (Ages 7–8), Worldwide
+Version
+1.0
+Date
+June 2026
+Status
+Draft — Ready for Review
+Reference
+Equal (equal-tau.vercel.app) Learning Methodology
+Curriculum Alignment
+Singapore Math, Common Core (USA), UK KS1, Australian Curriculum, CBSE/ICSE
+Authors
+Product Team — Time: Hours & Minutes
+
+
+Table of Contents
+
+
+
+1. Executive Summary
+Time: Hours & Minutes is a gamified, story-driven educational web platform designed to teach Grade 2 students (ages 7–8) the foundational concepts of telling time — reading hours and minutes on both analog and digital clocks. The platform transforms a traditionally abstract skill into an immersive interactive adventure, aligning with the best practices of Singapore Math, Common Core (USA), UK Key Stage 1, Australian Curriculum, and CBSE/ICSE standards.
+1.1 Problem Statement
+Telling time is one of the most challenging early mathematics skills. It requires simultaneous comprehension of circular number arrangement, the dual-speed motion of clock hands, the relationship between hours and minutes, and conversion between analog and digital formats. Traditional worksheet-based instruction leads to rote memorization without conceptual understanding.
+Children often:
+Confuse the hour and minute hands
+Struggle to connect analog clock readings to digital displays
+Lack intuition for how many minutes have passed
+Feel anxious and disengaged with traditional drill practice
+
+1.2 Vision
+🌟 PLATFORM VISION
+Time: Hours & Minutes transforms telling time from a rote memorization exercise into a joyful discovery adventure. Every child should feel like a time-traveling explorer who genuinely understands the rhythm of hours and minutes — not just someone who can recite answers.
+
+1.3 Design Philosophy — The Equal Approach
+The entire learning experience is modeled on the educational philosophy demonstrated in the Equal platform (equal-tau.vercel.app). This philosophy treats learning as guided discovery rather than information delivery. Key pillars adopted:
+Principle
+Description
+Application in Time: Hours & Minutes
+One Concept Per Screen
+Never show more than one idea at a time
+Each of the 20+ screens covers exactly one learning objective
+Visual-First
+Show before telling; images carry the concept
+Animated clocks, stories, and simulations precede all text
+Audio-Synchronized Narration
+Voice guidance accompanies every interaction
+Character narrates each step; subtitles always present
+Progressive Disclosure
+Concepts are revealed layer by layer
+Minute hand introduced only after hour hand mastery
+Story-Driven
+Learning embedded in narrative context
+Children follow Pip the Robot through a day's adventures
+Simulation Before Practice
+Exploration precedes formal questions
+Students manipulate clock before being asked questions
+Discovery Learning
+Students arrive at the rule themselves
+Pattern spotting through interactive clock experiments
+
+
+2. Product Overview
+2.1 Product Name & Branding
+Element
+Value
+Product Name
+Time: Hours & Minutes
+Tagline
+"Every minute is an adventure!"
+Mascot
+Pip — a friendly, wide-eyed robot with clock-face chest display
+Visual Theme
+Cozy animated town with clock tower at center; warm yellows, blues, oranges
+Tone
+Cheerful, encouraging, curious, never condescending
+
+2.2 Target Users
+Primary Users
+Attribute
+Detail
+Age Range
+7–8 years (Grade 2 / Year 2 internationally)
+Prior Knowledge
+Can count to 60; familiar with numbers on a clock face; knows o'clock and half-past from Grade 1
+Device Usage
+Tablet (primary), desktop, mobile
+Attention Span
+8–12 minutes per continuous session
+Learning Style
+Highly visual, benefits from audio, responds to characters
+Geography
+Global — English (primary), with future i18n support
+
+Secondary Users
+Parents: monitor progress, celebrate milestones, guide home learning
+Teachers: assign specific modules, view class-level completion data
+School Administrators: district-level curriculum compliance reporting
+
+2.3 Curriculum Alignment
+The platform content is precisely aligned to learning objectives across five major international frameworks for Grade 2 time instruction:
+Framework
+Standard / Reference
+Learning Objective Covered
+Singapore Math
+Primary 2A — Measurement: Time
+Tell time to 5 minutes; use a.m. / p.m.; elapsed time in hours
+Common Core (USA)
+2.MD.C.7
+Tell and write time from analog and digital clocks to nearest 5 minutes; use a.m. and p.m.
+UK Key Stage 1
+Year 2 Measurement
+Tell/write time to 5 minutes; know minutes in an hour and hours in a day; quarter past/to
+Australian Curriculum
+ACMMG039
+Tell time to the quarter-hour; describe time duration; connect formal and informal time
+CBSE / ICSE
+Class 2 Mathematics — Time
+Read and write time; understand the concept of hours and minutes; day/night activities
+
+
+3. Learning Objectives & Curriculum Scope
+3.1 Master Learning Objective
+🎯 MASTER LEARNING OBJECTIVE
+By completing Time: Hours & Minutes, a Grade 2 student will be able to read the time to the nearest 5 minutes on both analog and digital clocks, understand the relationship between hours and minutes, correctly use a.m. and p.m., and estimate elapsed time in everyday contexts.
+
+3.2 Granular Learning Objectives by Module
+Module
+Code
+Learning Objective
+Bloom's Level
+The Clock Kingdom
+LO-01
+Identify all parts of an analog clock (face, hands, numbers 1–12)
+Remember
+The Clock Kingdom
+LO-02
+Distinguish the hour hand (short) from the minute hand (long)
+Understand
+Hour Adventure
+LO-03
+Read and state o'clock times on analog clocks
+Apply
+Hour Adventure
+LO-04
+Match o'clock analog displays to digital representations
+Apply
+Half-Past Journey
+LO-05
+Identify half-past positions on clock face (minute hand at 6)
+Understand
+Half-Past Journey
+LO-06
+Write half-past times in digital format (e.g., 3:30)
+Apply
+Quarter Time
+LO-07
+Identify quarter past (minute hand at 3) and read time
+Understand
+Quarter Time
+LO-08
+Identify quarter to (minute hand at 9) and read time
+Understand
+Minute World
+LO-09
+Count by 5s around the clock face (5, 10, 15 … 60)
+Apply
+Minute World
+LO-10
+Read time to the nearest 5 minutes on analog clock
+Apply
+Digital Bridge
+LO-11
+Match any analog 5-minute time to its digital equivalent
+Apply
+Digital Bridge
+LO-12
+Convert digital times back to analog clock positions
+Analyze
+AM / PM Explorer
+LO-13
+Understand that a.m. = morning (midnight to noon)
+Understand
+AM / PM Explorer
+LO-14
+Understand that p.m. = afternoon/evening (noon to midnight)
+Understand
+AM / PM Explorer
+LO-15
+Sort daily activities into a.m. and p.m. categories
+Analyze
+Time in My Day
+LO-16
+Read schedule-style time displays in real-world contexts
+Apply
+Time in My Day
+LO-17
+Identify how many minutes are in one hour (60)
+Remember
+Time in My Day
+LO-18
+Identify how many hours are in one day (24)
+Remember
+Time Challenge
+LO-19
+Calculate simple elapsed time (e.g., how long from 2:00 to 3:00?)
+Analyze
+Time Challenge
+LO-20
+Solve simple word problems involving time in everyday contexts
+Evaluate
+
+
+4. Story, Narrative & UX Design Philosophy
+4.1 The Story World — Clocktown
+The platform takes place in Clocktown, a charming animated village where time has gone haywire because the Great Clock Tower has lost its hands. Pip, a lovable robot with a clock face on their chest, needs the student's help to restore time to Clocktown by completing time-learning quests.
+Story Characters
+Character
+Role
+Personality
+Visual Description
+Pip
+Main guide / mascot
+Enthusiastic, curious, gets confused without help
+Small robot, round clock-face display, big antenna
+Mayor Tick
+Authority / challenge giver
+Wise, warm, encouraging
+Elderly man in top hat with pocket watch
+Zara the Baker
+Context character
+Busy, cheerful, creates real-world scenarios
+Baker with flour on apron, always checking time
+Comet the Dog
+Reward character
+Playful, celebrates with student
+Energetic dog who appears at milestone completions
+
+4.2 Screen Flow Architecture
+The platform follows the Equal methodology of single-concept screens arranged in a deliberate sequence. Each screen belongs to one of these screen types:
+Screen Type
+Purpose
+Interaction Level
+Duration
+Story Intro
+Narrative hook; establish motivation
+Passive (tap to advance)
+20–30 sec
+Discovery Simulation
+Student explores the concept freely before instruction
+High (drag, tap, rotate)
+60–90 sec
+Guided Explanation
+Pip explains one concept with animated visual + audio
+Medium (tap to reveal steps)
+30–45 sec
+Guided Practice
+Attempt with scaffolding available
+High (answer input)
+45–60 sec
+Independent Practice
+3–5 questions without scaffolding
+High (answer input)
+60–90 sec
+Story Checkpoint
+Narrative reward; progress revealed
+Passive (animation)
+15–20 sec
+Module Assessment
+5–8 questions covering module LOs
+High
+3–5 min
+Celebration Screen
+XP reward, badge award, next module preview
+Passive + one tap
+15 sec
+
+4.3 Screen-by-Screen Content Map — Module 1: The Clock Kingdom
+Below is the detailed screen map for the first module, demonstrating the depth of planning required for each module.
+Screen #
+Type
+Title
+Concept
+Key Interaction
+Audio Cue
+1.1
+Story Intro
+"Clocktown Needs You!"
+Narrative hook
+Tap to advance
+Pip: "Oh no! The clock has no hands! Can you help me?"
+1.2
+Discovery Sim
+"Explore the Clock"
+Clock anatomy
+Tap parts to reveal labels
+Bell sound on each tap; Pip cheers
+1.3
+Guided Exp.
+"Meet the Hour Hand"
+Short hand = hour
+Pip animates the short hand moving
+"See the short, chubby hand? That's the hour hand!"
+1.4
+Guided Exp.
+"Meet the Minute Hand"
+Long hand = minutes
+Pip animates the long hand moving fast
+"The tall, thin hand counts the minutes!"
+1.5
+Guided Prac.
+"Which is Which?"
+Identify hour vs minute hand
+Tap correct hand based on prompt
+Immediate feedback; gentle error sound
+1.6
+Guided Exp.
+"Numbers on the Clock"
+12 numbers; circular arrangement
+Spin clock to see numbers glow in order
+Count together: 1, 2, 3...12
+1.7
+Ind. Practice
+"Clock Builder"
+Clock anatomy recall
+Drag hands and numbers onto blank clock
+Pip cheers on placement; timer optional
+1.8
+Story Check.
+"First Hand Restored!"
+Reward + motivation
+Watch animation of town lighting up
+Mayor Tick applauds; stars collected
+
+
+5. Gamification Design
+5.1 Core Gamification Framework
+Time: Hours & Minutes uses a Progression + Mastery gamification model. Unlike pure achievement-hunting systems, every reward is tied to demonstrated learning.
+5.2 Reward System
+Reward Type
+Trigger
+Visual
+Purpose
+Time Tokens
+Correct answer on first attempt
+Gold coin with clock icon
+Primary currency; spent to unlock cosmetics
+Star Ratings
+Module completion (1–3 stars)
+3 animated stars above Pip
+Reflect mastery level; motivate replay
+Badges
+LO mastery confirmed
+Digital badge with icon
+Collectible; visible in Trophy Room
+XP Points
+Every interaction
+XP bar filling up
+Level progression; unlocks new zones
+Clocktown Pieces
+Module completion
+Jigsaw piece of the town
+Meta-game; complete the town map
+Pip Outfits
+Milestone purchases
+Pip in new costume
+Self-expression; social motivation
+
+5.3 Progress Architecture
+Level
+Name
+Required XP
+Unlocks
+1
+Clockwork Cadet
+0
+Module 1: Clock Kingdom
+2
+Hour Hero
+500
+Module 2: Hour Adventure; new Pip hat
+3
+Half-Timer
+1,200
+Module 3: Half-Past Journey; Clocktown bakery
+4
+Quarter Master
+2,400
+Module 4: Quarter Time; new zone in Clocktown
+5
+Minute Maven
+4,000
+Module 5: Minute World; unlock Pip speech bubbles
+6
+Digital Dynamo
+6,000
+Module 6: Digital Bridge; town clock restored (partial)
+7
+AM/PM Pro
+8,500
+Module 7: AM/PM Explorer; day/night world toggle
+8
+Time Master
+12,000
+Module 8: Time in My Day; full Clocktown restoration
+9
+Time Legend
+16,000
+Module 9: Time Challenge; Hall of Legends entry
+10
+Grand Horologist
+21,000
+Final certificate; parent shareable achievement card
+
+5.4 Adaptive Difficulty
+The platform adjusts difficulty in real time based on student performance. The adaptive engine uses a 3-tier model:
+Tier
+Trigger
+Adaptation
+Scaffolded
+2+ incorrect answers in a row
+Show hint animation; reduce options; add step-by-step guidance
+Standard
+Normal performance
+Default question set; standard clock animations
+Extended
+3+ correct in a row, first try
+Bonus challenge questions; slightly harder minute intervals; multi-step problems
+
+
+6. Content Module Specifications
+6.1 Module Overview
+#
+Module Name
+Core Concept
+LOs
+Screens
+Est. Time
+1
+The Clock Kingdom
+Clock anatomy; hours & minute hands
+LO-01, LO-02
+8
+10–12 min
+2
+Hour Adventure
+Reading o'clock times; analog ↔ digital
+LO-03, LO-04
+9
+12–15 min
+3
+Half-Past Journey
+Half-past (30 min); digital notation :30
+LO-05, LO-06
+9
+12–15 min
+4
+Quarter Time
+Quarter past / quarter to; :15 and :45
+LO-07, LO-08
+10
+14–16 min
+5
+Minute World
+Counting by 5s; reading to nearest 5 min
+LO-09, LO-10
+11
+15–18 min
+6
+Digital Bridge
+Full analog–digital conversion
+LO-11, LO-12
+10
+14–16 min
+7
+AM / PM Explorer
+a.m. and p.m. concepts; day activities
+LO-13–LO-15
+10
+12–15 min
+8
+Time in My Day
+Real-world schedules; 60 min/hr; 24 hr/day
+LO-16–LO-18
+9
+12–14 min
+9
+Time Challenge
+Elapsed time; word problems
+LO-19, LO-20
+10
+15–20 min
+-
+Grand Finale
+Mixed review + certificate
+All LOs
+6
+10–12 min
+
+6.2 Detailed Module: Module 5 — Minute World (Sample Deep Dive)
+This module is the most cognitively demanding and follows a precise instructional sequence:
+Pre-Knowledge Check (Screen 5.0)
+Recall gate: student must demonstrate they can identify o'clock and half-past before entering
+Gentle reminder animation if needed — not a barrier
+
+Discovery Phase (Screens 5.1–5.2)
+Pip spins the minute hand slowly around the clock
+Student taps each number as Pip points — reveals: "5, 10, 15… each number is 5 minutes!"
+Interactive: student can drag Pip's finger around the clock to hear the skip-count themselves
+
+Concept Delivery (Screens 5.3–5.4)
+Animated visualization: minute hand moves from 12 to 1 → "5 minutes!" pop appears
+Each segment from number to number animated as a glowing arc
+Student taps any number to see its minute value highlighted
+
+Guided Practice (Screens 5.5–5.6)
+Clock shown; minute hand at a number; student selects the minute value from 3 options
+Hint system: tapping ? shows the counting path animated again
+Error response: clock gently shakes; Pip says "Let's count the jumps together!"
+
+Independent Practice (Screens 5.7–5.8)
+5 questions — full time reading (hour + minute) required
+Adaptive: if 3+ errors, reduce to minute-only questions before returning to full time reading
+
+Module Assessment (Screen 5.9)
+8 questions across all minute values (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 00)
+Mastery threshold: 80% (6 of 8 correct) to earn 3-star rating
+
+
+7. UX & Interaction Design
+7.1 Navigation & Screen Transitions
+Transition Type
+Trigger
+Animation
+Duration
+Forward
+Tap 'Next' or correct answer
+Slide left + fade
+300ms
+Backward
+Tap back arrow (guided)
+Slide right + fade
+300ms
+Module Entry
+Tap module tile on map
+Zoom in + sparkle burst
+500ms
+Celebration
+Module complete
+Confetti + character dance
+2,000ms
+Error Feedback
+Wrong answer
+Gentle shake + color flash
+400ms
+Hint Reveal
+Tap hint button
+Gentle pulse from button
+200ms
+
+7.2 Clock Interaction Patterns
+The analog clock is the hero interaction element. All clock simulations must support:
+Interaction
+Platform
+Behavior
+Drag hand
+Touch / Mouse
+Smooth rotation following pointer; snaps to nearest 5-minute position
+Tap number
+Touch / Mouse
+Highlight number + display minute value in bubble
+Auto-animate
+All
+Pip moves hands when explaining — smooth, real-time animation
+Clock reveal
+All
+Clock face 'builds' part by part during discovery screens
+Pinch zoom
+Touch only
+Allow up to 1.5x zoom for smaller screens
+
+7.3 Audio Design Specifications
+Audio Element
+Description
+Trigger
+Duration
+Narration — Pip
+Warm, slightly high-pitched child-friendly voice
+All instruction screens
+Varies
+Background Music
+Gentle, non-distracting loop; clock-tick motif
+All screens
+Looped
+Correct Answer SFX
+Chime + small cheer
+On correct response
+0.8 sec
+Wrong Answer SFX
+Soft 'boing' — not harsh or scary
+On incorrect response
+0.5 sec
+Clock Tick
+Subtle ticking during clock interaction
+While manipulating clock
+Continuous
+Level Up
+Triumphant fanfare
+On level progression
+2.0 sec
+Badge Award
+Sparkle shimmer + ding
+On badge unlock
+1.2 sec
+Ambient Town
+Birds, gentle breeze
+Clocktown map screen
+Looped
+
+7.4 Accessibility Requirements
+Requirement
+Standard
+Implementation
+Subtitles
+All narration
+Always-on subtitles; font size min 16px; high contrast
+Color Accessibility
+WCAG AA
+No information conveyed by color alone; icons + labels
+Keyboard Navigation
+WCAG 2.1
+All interactions keyboard-accessible on desktop
+Screen Reader
+ARIA labels
+All clock elements labelled for screen reader access
+Audio Control
+User preference
+Mute button always visible; separate music/SFX sliders
+Text Size
+User preference
+1.25x and 1.5x text size options in settings
+Dyslexia Font
+Opt-in
+OpenDyslexic font available as alternative
+Slow Mode
+User preference
+All animations can be slowed to 50% speed
+
+
+8. Feature Requirements
+8.1 Core Features (MVP)
+Feature ID
+Feature
+Description
+Priority
+F-01
+Interactive Analog Clock
+Draggable, real-time clock with snap-to-5-min behavior
+P0
+F-02
+Digital Clock Display
+Live digital readout linked to analog position
+P0
+F-03
+Narrated Instruction Screens
+Audio + subtitle guide for each concept screen
+P0
+F-04
+Answer Input (MCQ)
+3 or 4 option multiple-choice; touch and click
+P0
+F-05
+Adaptive Hint System
+On-demand animated hint without penalizing student
+P0
+F-06
+Progress Tracking
+Per-LO mastery tracking stored to user profile
+P0
+F-07
+XP & Level System
+Points earned and levels unlocked via progression
+P0
+F-08
+Module Map
+Visual Clocktown map showing unlocked/locked modules
+P0
+F-09
+Completion Certificates
+Printable/shareable completion certificate
+P0
+F-10
+Guest Mode
+Play without login (progress saved locally)
+P0
+
+8.2 Enhanced Features (Post-MVP)
+Feature ID
+Feature
+Description
+Priority
+F-11
+Parent Dashboard
+Progress view, time-spent metrics, module completion
+P1
+F-12
+Teacher Dashboard
+Class-level data, assignment tools, curriculum alignment view
+P1
+F-13
+Badges & Trophy Room
+Collectible badge display and achievement gallery
+P1
+F-14
+Multiplayer Quiz
+Real-time competitive quiz with classmates
+P2
+F-15
+Custom Clock Builder
+Student designs their own clock face as creative reward
+P2
+F-16
+Printable Worksheets
+Dynamically generated worksheets from completed modules
+P2
+F-17
+Multi-Language Support
+Full i18n support; Hindi, Spanish, Mandarin priority
+P2
+F-18
+Offline Mode
+Cached assets allow core play without internet
+P2
+F-19
+Time Stories
+Short animated stories where time reading affects the outcome
+P3
+F-20
+AI Tutor Chat
+Simple guided Q&A with Pip powered by AI
+P3
+
+
+9. Success Metrics & KPIs
+9.1 Learning Efficacy Metrics
+Metric
+Definition
+Target
+Measurement Method
+Module Completion Rate
+% of started students who complete all 9 modules
+>70%
+Platform analytics
+LO Mastery Rate
+% of students achieving 80%+ on module assessment
+>75%
+Assessment scores
+Average Attempts to Mastery
+Avg. question attempts before correct answer
+<2.5
+Per-question analytics
+Concept Retention (7-day)
+% correct on review quiz 7 days after module
+>65%
+Scheduled re-test
+Time-to-Competency
+Minutes to achieve first mastery on o'clock module
+<20 min
+Session timing
+Error Pattern Analysis
+Common mistake clusters to inform content iteration
+Tracked
+ML classification
+
+9.2 Engagement Metrics
+Metric
+Target
+Source
+Daily Active Users (DAU)
+40% of registered users return daily
+Auth system
+Session Length
+Average 12 minutes
+Session tracking
+Session Frequency
+3+ sessions/week per active student
+Session tracking
+NPS (Student)
+>60
+In-app survey (5-star smiley scale)
+NPS (Parent/Teacher)
+>50
+Email survey
+30-Day Retention
+>60% of users active 30 days post-registration
+Cohort analysis
+
+
+10. Risks & Mitigations
+Risk
+Likelihood
+Impact
+Mitigation Strategy
+Students skip narration and guess randomly
+High
+Low learning efficacy
+Track narration play completion; require minimum listen time before next screen unlocks
+Clock drag interaction too difficult on mobile
+Medium
+Frustration, drop-off
+Offer tap-to-set alternative; test on 10+ device types in UX research
+Content too easy for advanced students
+Medium
+Disengagement
+Adaptive difficulty; bonus challenge questions; speed records
+Content too difficult — minute reading
+High
+Drop-off at Module 5
+Adaptive scaffolding; ensure Module 4 mastery gates Module 5
+Classroom use creates competitive anxiety
+Low
+Peer anxiety
+Teacher mode hides individual scores; class-level view only
+Audio not available in quiet environments
+Medium
+Reduced instruction clarity
+All audio has visual equivalents; subtitles always on
+Parent/teacher dashboard adoption low
+Medium
+Reduced school market
+In-app onboarding for adults; weekly email digest option
+Content alignment drift across standards
+Low
+Reduced trust
+Quarterly curriculum audit by qualified educators
+
+
+11. Project Timeline & Phases
+Phase
+Duration
+Key Deliverables
+Phase 0 — Research & Design
+Weeks 1–4
+UX research; curriculum mapping; design system; wireframes; Pip character design
+Phase 1 — Core Engine (MVP)
+Weeks 5–10
+Clock component; basic game loop; Modules 1–3; audio engine; guest mode
+Phase 2 — Content Expansion
+Weeks 11–16
+Modules 4–7; gamification system; XP/badges; parent dashboard
+Phase 3 — Polish & Assessment
+Weeks 17–20
+Modules 8–9; Grand Finale; accessibility pass; analytics integration
+Phase 4 — Beta Testing
+Weeks 21–23
+Classroom pilots in 3 countries; bug fixes; curriculum review
+Phase 5 — Launch
+Week 24
+Public launch; teacher onboarding; press kit; App Store submission
+Phase 6 — Post-Launch
+Ongoing
+Feature enhancements per roadmap; multi-language; offline mode
+
+
+12. Appendix
+12.1 Glossary
+Term
+Definition
+Analog Clock
+Traditional clock with a circular face, numbered 1–12, with hour and minute hands
+Digital Clock
+Clock displaying time as numerals (e.g., 3:45)
+O'clock
+When the minute hand points to 12 (e.g., 3:00 = "three o'clock")
+Half-past
+When minute hand points to 6; 30 minutes past the hour (e.g., 3:30)
+Quarter past
+15 minutes past the hour; minute hand at 3 (e.g., 3:15)
+Quarter to
+15 minutes before the next hour; minute hand at 9 (e.g., 3:45)
+A.M.
+Ante meridiem — the 12 hours from midnight to noon
+P.M.
+Post meridiem — the 12 hours from noon to midnight
+Elapsed Time
+The amount of time that has passed between a start and end time
+LO
+Learning Objective — a specific, measurable skill to be mastered
+MVU
+Minimum Viable Unit — a single self-contained learning module
+
+12.2 Reference Documents
+Equal Platform — https://equal-tau.vercel.app/
+Equal Repository — https://github.com/dsamyak/equal
+Common Core Standards — 2.MD.C.7 — Measurement & Data
+UK National Curriculum — Key Stage 1 — Year 2 Measurement
+Singapore Math Primary 2A — Chapter: Time
+Australian Curriculum ACMMG039 — Using Units of Measurement
+CBSE Class 2 Mathematics — Chapter: Fun with Time

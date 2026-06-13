@@ -39,11 +39,11 @@ export default function QuestionRenderer({ question, onAnswer, disabled }) {
         display: 'inline-block',
         background: 'var(--coral)',
         color: 'white',
-        padding: '4px 12px',
+        padding: '8px 20px',
         borderRadius: '12px',
-        fontSize: '0.8rem',
-        fontWeight: 700,
-        marginBottom: 12,
+        fontSize: '1.15rem',
+        fontWeight: 800,
+        marginBottom: 16,
         letterSpacing: '0.5px'
       }}>
         ⏰ TIME CHALLENGE

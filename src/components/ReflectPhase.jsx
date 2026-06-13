@@ -118,7 +118,7 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
         <div className="reflect-card">
           <div className="reflect-mascot-row">
             <div className="mascot thinking">🤖</div>
-            <div className="speech-bubble" style={{ fontSize: '0.9rem' }}>
+            <div className="speech-bubble" style={{ fontSize: '1.1rem', fontWeight: 700 }}>
               Can you help me understand this?
             </div>
           </div>
@@ -133,11 +133,11 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
               }
               return (
                 <button
-                  key={i}
-                  className={cls}
-                  onClick={() => handleReflectSelect(i, opt.isCorrect)}
-                  disabled={answered}
-                >
+                   key={i}
+                   className={cls}
+                   onClick={() => handleReflectSelect(i, opt.isCorrect)}
+                   disabled={answered}
+                 >
                   <span className="reflect-option-emoji">{opt.isCorrect ? '✅' : '❓'}</span>
                   {opt.text}
                 </button>
@@ -145,7 +145,7 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
             })}
           </div>
           {answered && (
-            <div style={{ marginTop: 12, fontSize: '0.9rem', color: 'var(--gold)', fontStyle: 'italic', animation: 'fadeIn 0.3s' }}>
+            <div style={{ marginTop: 12, fontSize: '1.15rem', color: 'var(--gold)', fontWeight: 700, fontStyle: 'italic', animation: 'fadeIn 0.3s' }}>
               💡 {q.explanation}
             </div>
           )}
@@ -178,7 +178,7 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
                 <span className="confidence-emoji">{c.emoji}</span>
                 <div style={{ textAlign: 'left' }}>
                   <div className="confidence-label">{c.label}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{c.desc}</div>
+                  <div style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 600 }}>{c.desc}</div>
                 </div>
               </button>
             ))}
@@ -203,28 +203,28 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
         <p className="cert-subtitle">Tick Tock Academy graduate!</p>
         
         <div style={{ margin: '16px 0' }}>
-          <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>NAME</label>
+          <label style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', display: 'block', marginBottom: 6, fontWeight: 800 }}>NAME</label>
           <input
             type="text"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
             style={{
               background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.15)',
+              border: '2px solid rgba(255,255,255,0.25)',
               borderRadius: '8px',
-              padding: '8px 16px',
+              padding: '10px 16px',
               color: 'white',
               textAlign: 'center',
-              fontSize: '1.2rem',
-              fontWeight: 600,
+              fontSize: '1.45rem',
+              fontWeight: 800,
               width: '100%',
-              maxWidth: 240,
+              maxWidth: 260,
               fontFamily: 'var(--font-display)'
             }}
           />
         </div>
 
-        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: '12px 0' }}>
+        <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', margin: '12px 0', fontWeight: 700 }}>
           Has successfully completed all worlds in the <strong style={{ color: 'var(--gold)' }}>Grade 2 Time Module</strong>.
         </p>
 

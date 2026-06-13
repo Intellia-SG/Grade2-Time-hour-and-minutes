@@ -8,11 +8,7 @@ let isSpeaking   = false;
 let currentAudio = null;
 let playId       = 0;
 
-// audioMap is populated from the auto-generated file src/utils/audioMap.js
-let audioMap = {};
-import('./audioMap.js')
-  .then(m => { audioMap = m.audioMap || {}; })
-  .catch(() => {});
+import { audioMap } from './audioMap.js';
 
 // ── Resolve a local MP3 path for a given text ────────────────────────────────
 function getAudioUrl(text) {

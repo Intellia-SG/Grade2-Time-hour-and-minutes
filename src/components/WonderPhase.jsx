@@ -61,7 +61,7 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
   }, []);
 
   useEffect(() => {
-    if (stage === 1 && audioEnabled) {
+    if (audioEnabled) {
       narrationRef.current = narrate(
         wonderNarration(wonder.question, wonder.subtext),
         true
@@ -70,7 +70,15 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
     return () => {
       narrationRef.current?.cancel();
     };
-  }, [stage, wonder.question, wonder.subtext, audioEnabled]);
+  }, [wonder.question, wonder.subtext, audioEnabled]);
+
+  const replayAudio = () => {
+    narrationRef.current?.cancel();
+    narrationRef.current = narrate(
+      wonderNarration(wonder.question, wonder.subtext),
+      true
+    );
+  };
 
   const handleDiscover = useCallback(() => {
     narrationRef.current?.cancel();
@@ -78,9 +86,9 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
     if (audioEnabled) {
       const n = narrate(wonderDiscoverNarration(), true);
       n.promise.then(() => onComplete());
-      setTimeout(() => onComplete(), 3000);
+      setTimeout(() => onComplete(), 2500);
     } else {
-      setTimeout(() => onComplete(), 600);
+      setTimeout(() => onComplete(), 500);
     }
   }, [onComplete, audioEnabled]);
 
@@ -102,16 +110,18 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
         </div>
         <div className={`wonder-mascot ${stage >= 1 ? 'visible' : ''}`}>
           <div className="mascot thinking">🤖</div>
-          <div className="speech-bubble wonder-bubble">Hmm... I wonder... 🤔</div>
+          <div className="speech-bubble wonder-bubble">
+            Hmm... <strong>Wei Ming</strong> wonders... 🤔
+          </div>
         </div>
         <div className={`wonder-question-card ${stage >= 1 ? 'visible' : ''}`}>
           <div className="wonder-emoji">{wonder.emoji}</div>
-          <h2 className="wonder-question-text">{wonder.question}</h2>
+          <h2 className="wonder-question-text"><strong>{wonder.question}</strong></h2>
           <p className="wonder-subtext">{wonder.subtext}</p>
         </div>
         <button className={`btn btn-wonder ${stage >= 2 ? 'visible' : ''}`} onClick={handleDiscover} id="discover-btn">
           <span className="wonder-btn-sparkle">✨</span>
-          Let's Discover!
+          <strong>Let's Discover!</strong>
           <span className="wonder-btn-sparkle">✨</span>
         </button>
       </div>

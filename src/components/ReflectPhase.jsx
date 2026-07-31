@@ -113,7 +113,7 @@ export default function ReflectPhase({ results = {}, onComplete, audioEnabled })
       <div className="reflect-phase">
         <div className="reflect-header">
           <h3 className="reflect-label">📓 Reflect</h3>
-          <p className="reflect-sublabel">Teach Pip what you learned today!</p>
+          <p className="reflect-sublabel">Teach <strong>Wei Ming</strong> what you learned today!</p>
         </div>
         <div className="reflect-card">
           <div className="reflect-mascot-row">

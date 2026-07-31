@@ -5,19 +5,19 @@ import { getStoryNarration } from '../utils/narration';
 const STORY_SLIDES = [
   {
     title: "Clocktown Needs You!",
-    text: "Meet Pip the Robot! Pip has a clock on his chest, but the hands are missing! Without them, Clocktown is frozen in time. Can you help Pip restore the hands?",
-    highlight: "Help Pip restore the clock hands!",
+    text: "Meet Wei Ming! Wei Ming has a clock on his chest, but the hands are missing! Without them, Clocktown is frozen in time. Can you help Wei Ming restore the hands?",
+    highlight: "Help Wei Ming restore the clock hands!",
     mascotText: "Let's find the missing clock hands! 🤖",
   },
   {
     title: "Meet the Hour Hand",
-    text: "Pip finds the short, blue hand. That is the hour hand! The hour hand is short and chubby. It points directly to the hours: one, two, three, all the way to twelve. It moves slowly!",
+    text: "Wei Ming finds the short, blue hand. That is the hour hand! The hour hand is short and chubby. It points directly to the hours: one, two, three, all the way to twelve. It moves slowly!",
     highlight: "Short hand = Hour Hand",
     mascotText: "Hour hand moves slowly! 🕒",
   },
   {
     title: "Meet the Minute Hand",
-    text: "Pip finds the tall, red hand. That is the minute hand! The minute hand is tall and thin. It counts the minutes as they tick by. It moves faster than the hour hand!",
+    text: "Wei Ming finds the tall, red hand. That is the minute hand! The minute hand is tall and thin. It counts the minutes as they tick by. It moves faster than the hour hand!",
     highlight: "Long hand = Minute Hand",
     mascotText: "Minute hand moves fast! ⏱️",
   },
@@ -35,7 +35,7 @@ const STORY_SLIDES = [
   },
   {
     title: "Ready to Go!",
-    text: "Now you know the anatomy of the clock! You are ready to help Pip restore Clocktown by simulating and building times yourself. Let's do it!",
+    text: "Now you know the anatomy of the clock! You are ready to help Wei Ming restore Clocktown by simulating and building times yourself. Let's do it!",
     highlight: "Let's practice building times!",
     mascotText: "Ready to explore! 🚀",
   },

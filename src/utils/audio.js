@@ -26,9 +26,25 @@ export function speak(text, enabled = true) {
 
     const url = getAudioUrl(text);
     if (!url) {
-      // Audio file not found — skip silently (no browser TTS fallback)
-      isSpeaking = false;
-      resolve();
+      // Audio file not found — fallback to browser Web Speech API (TTS)
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const cleanText = text.replace(/<[^>]*>?/gm, '');
+          const utterance = new SpeechSynthesisUtterance(cleanText);
+          utterance.rate = 0.95;
+          utterance.pitch = 1.05;
+          utterance.onend = () => { isSpeaking = false; resolve(); };
+          utterance.onerror = () => { isSpeaking = false; resolve(); };
+          window.speechSynthesis.speak(utterance);
+        } catch (e) {
+          isSpeaking = false;
+          resolve();
+        }
+      } else {
+        isSpeaking = false;
+        resolve();
+      }
       return;
     }
 
@@ -72,6 +88,7 @@ export function narrate(segments, enabled = true) {
     cancelled = true;
     if (currentQueue === queueId) {
       if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); }
       isSpeaking   = false;
       currentQueue = null;
     }
@@ -84,7 +101,7 @@ export function narrate(segments, enabled = true) {
       if (cancelled || currentQueue !== queueId) return;
 
       if (segment.text?.trim()) {
-        await speak(segment.text, true);
+        await speak(segment.text, enabled);
       }
 
       if (segment.pause > 0 && !cancelled && currentQueue === queueId) {
@@ -101,6 +118,7 @@ export function stopNarration() {
   playId++;
   currentQueue = null;
   if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); }
   isSpeaking = false;
 }
 

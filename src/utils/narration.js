@@ -29,8 +29,8 @@ export function getStoryNarration(slideIndex) {
   switch (slideIndex) {
     case 0:
       return [
-        say("Meet Pip the Robot! Pip has a clock on his chest, but the hands are missing!"),
-        say("Without the hands, Clocktown is frozen. Pip needs your help to restore the clock hands and start time again!"),
+        say("Meet Wei Ming! Wei Ming has a clock on his chest, but the hands are missing!"),
+        say("Without the hands, Clocktown is frozen. Wei Ming needs your help to restore the clock hands and start time again!"),
       ];
     case 1:
       return [
@@ -54,7 +54,7 @@ export function getStoryNarration(slideIndex) {
       ];
     case 5:
       return [
-        cheer("You are ready to help Pip restore Clocktown!"),
+        cheer("You are ready to help Wei Ming restore Clocktown!"),
         say("Let us start by simulating and building times ourselves. Here we go!"),
       ];
     default:

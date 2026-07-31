@@ -6,6 +6,7 @@ import { formatDigital, formatSpeechTime } from '../utils/questionBank';
 import { simulateStation1Intro, simulateStation2Intro, simulateStation3Intro } from '../utils/narration';
 
 function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 const STATIONS = [
   { id: 0, title: 'Set the Clock', subtitle: 'Interactive Hands', icon: '🕒' },
@@ -33,17 +34,18 @@ function Station1({ audioEnabled, onNext }) {
   const [currentMin, setCurrentMin] = useState(0);
   const [round, setRound] = useState(0);
   const [done, setDone] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const narRef = useRef(null);
 
   useEffect(() => {
     const preset = PRESETS[randInt(0, PRESETS.length - 1)];
     setTargetTime(preset);
-    // Start hands offset from target
     let sh = (preset.h + 4) % 12 || 12;
     let sm = (preset.m + 25) % 60;
     setCurrentHour(sh);
     setCurrentMin(sm);
     setDone(false);
+    setShowHint(false);
   }, [round]);
 
   useEffect(() => {
@@ -96,13 +98,13 @@ function Station1({ audioEnabled, onNext }) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="station-header"><h2>🕒 Set the Clock</h2></div>
+      <div className="station-header"><h2>🕒 <strong>Set the Clock</strong></h2></div>
       <p style={{ color: 'var(--text-secondary)', marginBottom: 16 }}>
-        Set the analog clock to: <strong style={{ color: 'var(--gold)', fontSize: '1.2rem' }}>{formatDigital(targetTime.h, targetTime.m)}</strong> ({formatSpeechTime(targetTime.h, targetTime.m)})
+        Set the analog clock to: <strong style={{ color: 'var(--gold)', fontSize: '1.3rem' }}>{formatDigital(targetTime.h, targetTime.m)}</strong> (<strong>{formatSpeechTime(targetTime.h, targetTime.m)}</strong>)
       </p>
 
       {/* Interactive Clock */}
-      <div style={{ margin: '24px 0' }}>
+      <div style={{ margin: '20px 0' }}>
         <AnalogClock
           hour={currentHour}
           minute={currentMin}
@@ -115,29 +117,36 @@ function Station1({ audioEnabled, onNext }) {
 
       {/* Adjuster controls */}
       {!done && (
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
-          <button className="btn btn-outline btn-sm" onClick={() => adjustHour(-1)}>Hour -</button>
-          <button className="btn btn-outline btn-sm" onClick={() => adjustHour(1)}>Hour +</button>
-          <button className="btn btn-outline btn-sm" onClick={() => adjustMin(-5)}>Min -5</button>
-          <button className="btn btn-outline btn-sm" onClick={() => adjustMin(5)}>Min +5</button>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
+          <button className="btn btn-outline btn-sm" onClick={() => adjustHour(-1)}><strong>Hour -</strong></button>
+          <button className="btn btn-outline btn-sm" onClick={() => adjustHour(1)}><strong>Hour +</strong></button>
+          <button className="btn btn-outline btn-sm" onClick={() => adjustMin(-5)}><strong>Min -5</strong></button>
+          <button className="btn btn-outline btn-sm" onClick={() => adjustMin(5)}><strong>Min +5</strong></button>
+          <button className="btn btn-outline btn-sm" onClick={() => setShowHint(!showHint)}>💡 <strong>Hint</strong></button>
         </div>
       )}
 
-      <div style={{ fontSize: '1.1rem', marginBottom: 16 }}>
+      {showHint && !done && (
+        <div className="simulate-tip" style={{ maxWidth: 450, margin: '0 auto 16px' }}>
+          💡 Point short hand to <strong>{targetTime.h}</strong> and long hand to <strong>{targetTime.m === 0 ? '12 (00 min)' : targetTime.m / 5 + ' (' + targetTime.m + ' min)'}</strong>.
+        </div>
+      )}
+
+      <div style={{ fontSize: '1.15rem', marginBottom: 16 }}>
         Your clock says: <strong style={{ color: done ? 'var(--green-light)' : 'var(--coral)' }}>{formatDigital(currentHour, currentMin)}</strong>
       </div>
 
       {done && (
         <div style={{ animation: 'bounceIn 0.5s', marginTop: 12 }}>
-          <div className="group-diagram-label" style={{ color: 'var(--green-light)', fontSize: '1.2rem', fontWeight: 'bold' }}>
-            🎉 Correct! Clock is matched!
+          <div className="group-diagram-label" style={{ color: 'var(--green-light)', fontSize: '1.25rem', fontWeight: 'bold' }}>
+            🎉 <strong>Correct! Clock is matched!</strong>
           </div>
           <button className={`btn ${round < 2 ? 'btn-outline' : 'btn-primary'}`} style={{ marginTop: 16 }} onClick={() => round < 2 ? setRound(r => r + 1) : onNext()}>
-            {round < 2 ? 'Try Another →' : 'Next Station →'}
+            <strong>{round < 2 ? 'Try Another →' : 'Next Station →'}</strong>
           </button>
         </div>
       )}
-      <div style={{ marginTop: 16, fontSize: '0.8rem', color: 'var(--text-muted)' }}>Round {Math.min(round + 1, 3)} / 3</div>
+      <div style={{ marginTop: 16, fontSize: '0.85rem', color: 'var(--text-muted)' }}><strong>Round {Math.min(round + 1, 3)} / 3</strong></div>
     </div>
   );
 }

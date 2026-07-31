@@ -7,6 +7,7 @@ import StoryPhase from './components/StoryPhase';
 import SimulatePhase from './components/SimulatePhase';
 import PlayPhase from './components/PlayPhase';
 import ReflectPhase from './components/ReflectPhase';
+import PopupModal from './components/PopupModal';
 
 const PHASES = ['intro', 'wonder', 'story', 'simulate', 'play', 'reflect'];
 const JOURNEY_ITEMS = [
@@ -21,6 +22,7 @@ export default function App() {
   const [phase, setPhase] = useState('intro');
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [playStats, setPlayStats] = useState(null);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const toggleAudio = useCallback(() => {
     setAudioEnabled(prev => {
@@ -29,7 +31,17 @@ export default function App() {
     });
   }, []);
 
-  const goHome = useCallback(() => {
+  const handleHomeClick = useCallback(() => {
+    if (phase !== 'intro') {
+      setShowExitConfirm(true);
+    } else {
+      stopNarration();
+      setPhase('intro');
+    }
+  }, [phase]);
+
+  const confirmGoHome = useCallback(() => {
+    setShowExitConfirm(false);
     stopNarration();
     setPhase('intro');
     setPlayStats(null);
@@ -53,14 +65,19 @@ export default function App() {
     <>
       <FloatingNumbers />
       <div className="app-container">
-        {/* Audio Toggle */}
-        <button className="audio-toggle-btn" onClick={toggleAudio} title={audioEnabled ? 'Mute' : 'Unmute'}>
+        {/* Sound / Audio Toggle */}
+        <button
+          className={`audio-toggle-btn ${phase === 'intro' ? 'home-speaker' : ''}`}
+          onClick={toggleAudio}
+          title={audioEnabled ? 'Mute Audio' : 'Unmute Audio'}
+          aria-label="Toggle Sound"
+        >
           {audioEnabled ? '🔊' : '🔇'}
         </button>
 
         {/* Home Button */}
         {showJourney && (
-          <button className="home-btn" onClick={goHome}>
+          <button className="home-btn" onClick={handleHomeClick}>
             Home 🏠
           </button>
         )}
@@ -76,7 +93,7 @@ export default function App() {
                 <div key={i} className="journey-step-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
                   <div className={`journey-step ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}>
                     <div className="journey-step-dot">{isCompleted ? '✓' : item.icon}</div>
-                    <div className="journey-step-label">{item.label}</div>
+                    <div className="journey-step-label"><strong>{item.label}</strong></div>
                   </div>
                   {i < JOURNEY_ITEMS.length - 1 && (
                     <div className={`journey-connector ${phaseIndex > stepPhaseIndex ? 'filled' : ''}`} />
@@ -130,6 +147,27 @@ export default function App() {
             audioEnabled={audioEnabled}
           />
         )}
+
+        {/* Home / Exit Confirmation Popup Modal */}
+        <PopupModal
+          isOpen={showExitConfirm}
+          onClose={() => setShowExitConfirm(false)}
+          type="confirm"
+          title="Return to Home?"
+          icon="🏠"
+          primaryAction={{
+            label: 'Yes, Go Home',
+            onClick: confirmGoHome
+          }}
+          secondaryAction={{
+            label: 'Continue Journey',
+            onClick: () => setShowExitConfirm(false)
+          }}
+        >
+          <p style={{ fontSize: '1.15rem', color: 'var(--white)' }}>
+            Are you sure you want to return to the Intro screen? Your current journey progress will be reset.
+          </p>
+        </PopupModal>
       </div>
     </>
   );

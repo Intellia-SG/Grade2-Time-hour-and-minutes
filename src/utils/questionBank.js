@@ -223,13 +223,13 @@ function genWorld4(id, idx) {
 // World 5: AM/PM Skyway (Morning, Afternoon, Night)
 function genWorld5(id, idx) {
   const scenarios = [
-    { q: "Mia eats breakfast at 7:30 ___.", a: "a.m.", exp: "Breakfast is eaten in the morning, which is a.m." },
-    { q: "Ryan plays soccer after school at 4:15 ___.", a: "p.m.", exp: "Afternoon activities happen in the p.m. hours." },
-    { q: "Siti goes to sleep at night at 9:00 ___.", a: "p.m.", exp: "Nighttime before midnight is p.m." },
+    { q: "Wei Ming eats breakfast at 7:30 ___.", a: "a.m.", exp: "Breakfast is eaten in the morning, which is a.m." },
+    { q: "Wei Ming plays soccer after school at 4:15 ___.", a: "p.m.", exp: "Afternoon activities happen in the p.m. hours." },
+    { q: "Wei Ming goes to sleep at night at 9:00 ___.", a: "p.m.", exp: "Nighttime before midnight is p.m." },
     { q: "Wei Ming watches the sunrise at 6:00 ___.", a: "a.m.", exp: "Sunrise happens early in the morning, which is a.m." },
     { q: "The sun is high in the sky at 12:00 noon. This is 12:00 ___.", a: "p.m.", exp: "Noon is exactly 12:00 p.m. Midnight is 12:00 a.m." },
-    { q: "Raju wakes up for school at 6:45 ___.", a: "a.m.", exp: "Waking up for school in the morning is in the a.m." },
-    { q: "Aisha eats dinner at 7:00 ___.", a: "p.m.", exp: "Dinner is in the evening, which is p.m." }
+    { q: "Wei Ming wakes up for school at 6:45 ___.", a: "a.m.", exp: "Waking up for school in the morning is in the a.m." },
+    { q: "Wei Ming eats dinner at 7:00 ___.", a: "p.m.", exp: "Dinner is in the evening, which is p.m." }
   ];
 
   const sc = scenarios[idx % scenarios.length];
@@ -297,7 +297,7 @@ function genWorld7(id, idx) {
       exp: "Subtracting 15 minutes from 8:30 a.m. is 8:15 a.m."
     },
     {
-      q: "Mia's music lesson ends at 5:45 p.m. It is a 45-minute lesson. What time did it start?",
+      q: "Wei Ming's music lesson ends at 5:45 p.m. It is a 45-minute lesson. What time did it start?",
       a: "5:00 p.m.",
       opts: ["4:30 p.m.", "5:00 p.m.", "5:15 p.m.", "6:30 p.m."],
       exp: "45 minutes before 5:45 p.m. is exactly 5:00 p.m."

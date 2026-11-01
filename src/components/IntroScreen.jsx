@@ -3,7 +3,7 @@ import { stopNarration } from '../utils/audio';
 
 const HOME_JOURNEY_CARDS = [
   { icon: '🔍', title: 'Wonder', sub: 'A clock mystery!' },
-  { icon: '📖', title: 'Story', sub: 'Wei Ming\'s clock hands' },
+  { icon: '📖', title: 'Story', sub: "Pip's clock hands" },
   { icon: '🧪', title: 'Simulate', sub: 'Set & read clock' },
   { icon: '🎮', title: 'Play', sub: '20+ challenges' },
   { icon: '📓', title: 'Reflect', sub: 'Quiz & review' },

@@ -6,8 +6,15 @@ export const audioMap = {
   "Today, we are going to learn how to tell time using hours and minutes.": "/audio/aa534dd63ad7.mp3",
   "Have you ever wondered how the hands on a clock move to show us the time?": "/audio/ac4d9d57461b.mp3",
   "Let us start our journey to unlock the secrets of the clock!": "/audio/8dc4b7633ac3.mp3",
+  "Fantastic! Let us discover how clocks help us plan our day!": "/audio/8dc4b7633ac3.mp3",
+
+  // Story – slide 0 (Pip & Wei Ming aliases)
   "Meet Pip the Robot! Pip has a clock on his chest, but the hands are missing!": "/audio/6415d97d7e4b.mp3",
+  "Meet Wei Ming! Wei Ming has a clock on his chest, but the hands are missing!": "/audio/6415d97d7e4b.mp3",
   "Without the hands, Clocktown is frozen. Pip needs your help to restore the clock hands and start time again!": "/audio/a1c9c0d63ce7.mp3",
+  "Without the hands, Clocktown is frozen. Wei Ming needs your help to restore the clock hands and start time again!": "/audio/a1c9c0d63ce7.mp3",
+
+  // Story – slides 1 to 4
   "Look at the short, blue hand. That is the hour hand!": "/audio/bc62e5ce3b6a.mp3",
   "The hour hand is short and chubby. It points directly to the hours: one, two, three, all the way to twelve!": "/audio/586cb529ff76.mp3",
   "Now meet the tall, red hand. That is the minute hand!": "/audio/4cd487c2f609.mp3",
@@ -16,14 +23,30 @@ export const audioMap = {
   "But when it points straight down at six, it is half past the hour! That means thirty minutes have passed.": "/audio/96156667e2d0.mp3",
   "We can also say quarter past when the minute hand points to three, which is fifteen minutes.": "/audio/151bbc04f611.mp3",
   "And when it points to nine, it is quarter to the next hour, which is forty-five minutes!": "/audio/aeda9788eaf2.mp3",
+
+  // Story – slide 5 (Pip & Wei Ming aliases)
   "You are ready to help Pip restore Clocktown!": "/audio/9d2591e7b00d.mp3",
+  "You are ready to help Wei Ming restore Clocktown!": "/audio/9d2591e7b00d.mp3",
   "Let us start by simulating and building times ourselves. Here we go!": "/audio/b02ba430ce7a.mp3",
+
+  // Wonder question fallback mappings
+  "Why does a clock have a short hand and a long hand? How do they work together to show the exact time?": "/audio/ac4d9d57461b.mp3",
+  "If the short hand is between 4 and 5, and the long hand points straight down to 6, what time is it?": "/audio/ac4d9d57461b.mp3",
+  "We do different things in the morning and at night. How does a clock tell us if it is a.m. or p.m.?": "/audio/ac4d9d57461b.mp3",
+  "The minute hand goes all the way around the clock face in one hour. How many minutes are in one full turn?": "/audio/ac4d9d57461b.mp3",
+  "How do we write the time in numbers? What is the secret link between analog and digital clocks?": "/audio/ac4d9d57461b.mp3",
+
+  // Simulate
   "Set the clock to the target time. Use the buttons to rotate the hour and minute hands!": "/audio/3df2c8c71808.mp3",
   "Look at the analog clock. Which digital clock shows the same time? Tap to select!": "/audio/98695df85755.mp3",
   "Look at the clock face. Type the digital time in the boxes using the number pad!": "/audio/165246cdb066.mp3",
+
+  // Play
   "That is correct!": "/audio/77426850cd42.mp3",
   "Incredible streak! You are a time hero!": "/audio/020baa78117b.mp3",
   "Not quite. Let us try another one!": "/audio/e3f03abb7f04.mp3",
+
+  // Reflect
   "Let us reflect on what we learned today! Help me answer these questions!": "/audio/da5d61ace723.mp3",
   "Excellent teaching!": "/audio/5dfe8ae883bb.mp3",
   "Ah, I see. Let us review that again!": "/audio/ae40cec9cfa1.mp3",

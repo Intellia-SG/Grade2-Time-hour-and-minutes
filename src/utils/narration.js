@@ -11,16 +11,15 @@ export function introNarration() {
 }
 
 // ─── WONDER PHASE ────────────────────────────────
-export function wonderNarration(questionText, subtext) {
+export function wonderNarration(questionText) {
   return [
-    ask(questionText),
-    say(subtext),
+    ask(questionText || "Have you ever wondered how the hands on a clock move to show us the time?"),
   ];
 }
 
 export function wonderDiscoverNarration() {
   return [
-    cheer("Fantastic! Let us discover how clocks help us plan our day!"),
+    cheer("Let us start our journey to unlock the secrets of the clock!"),
   ];
 }
 
@@ -29,8 +28,8 @@ export function getStoryNarration(slideIndex) {
   switch (slideIndex) {
     case 0:
       return [
-        say("Meet Wei Ming! Wei Ming has a clock on his chest, but the hands are missing!"),
-        say("Without the hands, Clocktown is frozen. Wei Ming needs your help to restore the clock hands and start time again!"),
+        say("Meet Pip the Robot! Pip has a clock on his chest, but the hands are missing!"),
+        say("Without the hands, Clocktown is frozen. Pip needs your help to restore the clock hands and start time again!"),
       ];
     case 1:
       return [
@@ -54,7 +53,7 @@ export function getStoryNarration(slideIndex) {
       ];
     case 5:
       return [
-        cheer("You are ready to help Wei Ming restore Clocktown!"),
+        cheer("You are ready to help Pip restore Clocktown!"),
         say("Let us start by simulating and building times ourselves. Here we go!"),
       ];
     default:

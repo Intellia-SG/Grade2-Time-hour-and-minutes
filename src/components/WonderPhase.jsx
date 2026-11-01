@@ -4,34 +4,10 @@ import { wonderNarration, wonderDiscoverNarration } from '../utils/narration';
 
 const WONDER_QUESTIONS = [
   {
-    question: "Why does a clock have a short hand and a long hand? How do they work together to show the exact time?",
+    question: "Have you ever wondered how the hands on a clock move to show us the time?",
     subtext: "One hand moves slowly for hours, the other ticks quickly for minutes!",
     emoji: "🕒",
-    bgEmojis: ["🕒", "🕒", "✨", "🔢"],
-  },
-  {
-    question: "If the short hand is between 4 and 5, and the long hand points straight down to 6, what time is it?",
-    subtext: "It is halfway past 4! We write this as 4:30.",
-    emoji: "⏰",
-    bgEmojis: ["⏰", "30", "🔢", "💡"],
-  },
-  {
-    question: "We do different things in the morning and at night. How does a clock tell us if it is a.m. or p.m.?",
-    subtext: "The day has 24 hours, but our clocks only go up to 12. Let's find out why!",
-    emoji: "☀️",
-    bgEmojis: ["☀️", "🌙", "⏰", "✨"],
-  },
-  {
-    question: "The minute hand goes all the way around the clock face in one hour. How many minutes are in one full turn?",
-    subtext: "There are 60 minutes in a whole hour, and 5 minutes between each number!",
-    emoji: "⏱️",
-    bgEmojis: ["⏱️", "60", "🎯", "🔢"],
-  },
-  {
-    question: "How do we write the time in numbers? What is the secret link between analog and digital clocks?",
-    subtext: "Digital clocks show the hours first, then the minutes after a colon!",
-    emoji: "📟",
-    bgEmojis: ["📟", "➕", "🕒", "🌟"],
+    bgEmojis: ["🕒", "⏰", "✨", "🔢"],
   },
 ];
 
@@ -111,7 +87,7 @@ export default function WonderPhase({ onComplete, audioEnabled }) {
         <div className={`wonder-mascot ${stage >= 1 ? 'visible' : ''}`}>
           <div className="mascot thinking">🤖</div>
           <div className="speech-bubble wonder-bubble">
-            Hmm... <strong>Wei Ming</strong> wonders... 🤔
+            Hmm... <strong>Pip</strong> wonders... 🤔
           </div>
         </div>
         <div className={`wonder-question-card ${stage >= 1 ? 'visible' : ''}`}>

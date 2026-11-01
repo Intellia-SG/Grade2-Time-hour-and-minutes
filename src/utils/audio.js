@@ -12,7 +12,11 @@ import { audioMap } from './audioMap.js';
 
 // ── Resolve a local MP3 path for a given text ────────────────────────────────
 function getAudioUrl(text) {
-  return audioMap[text] || null;
+  if (!text) return null;
+  const trimmed = text.trim();
+  if (audioMap[trimmed]) return audioMap[trimmed];
+  const clean = trimmed.replace(/\s+/g, ' ');
+  return audioMap[clean] || null;
 }
 
 // ── Play a single narration segment ─────────────────────────────────────────
